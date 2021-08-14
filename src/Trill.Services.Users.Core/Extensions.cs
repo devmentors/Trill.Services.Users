@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
+using Convey.MessageBrokers.RabbitMQ.Serializers;
 using Trill.Services.Users.Core.Commands;
 using Trill.Services.Users.Core.Decorators;
 using Trill.Services.Users.Core.Domain.Repositories;
@@ -72,7 +73,8 @@ namespace Trill.Services.Users.Core
                 .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
-                .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
+                .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin(),
+                    serializer: new NewtonsoftJsonRabbitMqSerializer())
                 .AddMessageOutbox(o => o.AddMongo())
                 .AddMongo()
                 .AddRedis()
